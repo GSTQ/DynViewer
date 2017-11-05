@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Просмотрищик динамограмм</title>
+  </head>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <body>
+    <script>
+      // You can also require other files to run in this process
+      require('./renderer.js')
+    </script>
+    <script src="db.js"></script>
+  <script>
+    window.$ = window.jQuery = require('jquery');
+    const Highcharts = require('highcharts')
+    require('highcharts/modules/data')(Highcharts)
+  </script>
+  <div class="container-fluid">
+      <div class="row content">
+          <div class="col-sm-3">
+              <h4>Список скважин:</h4>
+              <ul class="list-group" id = "wells">
+              </ul>
+          </div>
+          <div class="col-sm-3">
+              <h4>Динамограммы:</h4>
+              <ul class="list-group" id = "dynamograms">
+              </ul>
+          </div>
+          <div class="col-sm-6">
+            <div id = "chart-container">
+            </div>
+          </div>
+      </div>
+  </div>
+  <script>
+      $( document ).ready(function() {
+        db.each("SELECT distinct well_id as well_name FROM dynamograms", function(err, row) {
+           $('#wells').append('<li class="list-group-item well-item" id="' + row.well_name +'">' + "Скв." + row.well_name + '</li>');
+        });
+        $(document).on ("click", ".well-item", function () {
+          $('.dyn-item').remove();
+          $(".well-item").removeClass("active");
+          $(this).addClass("active");
+          var id = $(this).attr('id');
+          db.each("SELECT dyn_id, dt FROM dynamograms WHERE well_id = " + id, function(err, row) {
+            $('#dynamograms').append('<li class="list-group-item dyn-item" id="' + row.dyn_id +'">' + row.dt + '</li>');
+          });
+        });
+        $(document).on ("click", ".dyn-item", function () {
+          $(".dyn-item").removeClass("active");
+          $(this).addClass("active");
+          var id = $(this).attr('id');
+          db.each("SELECT dyn_id, dt, position_data, load_data FROM dynamograms WHERE dyn_id = " + id, function(err, row) {
+          var position = row.position_data.split(';').map(function(item) {
+            return parseFloat(item);
+          });
+          var load = row.load_data.split(';').map(function(item) {
+            return parseFloat(item);
+          });
+          var series_data = position.map(function(e, i) {
+            return [e, load[i]];
+          });
+          Highcharts.chart('chart-container', {
+            chart: {
+              type: 'spline'
+            },
+            title: {
+              text: 'Динамограмма на ' + row.dt
+            },
+            xAxis: {
+              reversed: false,
+              title: {
+                enabled: true,
+                text: 'Ход штока, мм'
+              },
+              maxPadding: 0.05,
+              showLastLabel: true,
+              lineWidth: 2,
+              gridLineWidth: 1
+            },
+            yAxis: {
+              title: {
+                text: 'Нагрузка, кгс'
+              },
+              lineWidth: 2
+            },
+            legend: {
+              enabled: false
+            },
+            tooltip: {
+              headerFormat: '<b>{series.name}</b><br/>',
+              pointFormat: 'Позиция штока: {point.x} мм Нагрузка {point.y} кгс'
+            },
+            plotOptions: {
+              spline: {
+                marker: {
+                  enable: false
+                }
+              }
+            },
+            series: [{
+              name: 'Dynamogram',
+              data: series_data
+            }]
+          }); 
+        });
+      });  
+    });  
+  </script>
+  </body>
+</html>
