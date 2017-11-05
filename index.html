@@ -37,8 +37,8 @@
   </div>
   <script>
       $( document ).ready(function() {
-        db.each("SELECT distinct well_id as well_name FROM dynamograms", function(err, row) {
-           $('#wells').append('<li class="list-group-item well-item" id="' + row.well_name +'">' + "Скв." + row.well_name + '</li>');
+        db.each("SELECT well_id as well_name, count(dyn_id) as count FROM dynamograms group by well_id", function(err, row) {
+           $('#wells').append('<li class="list-group-item well-item" id="' + row.well_name +'">' + "Скв." + row.well_name + ' <span class="badge badge-default badge-pill">' + row.count + '</span></li>');
         });
         $(document).on ("click", ".well-item", function () {
           $('.dyn-item').remove();
