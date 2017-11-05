@@ -5,6 +5,7 @@
     <title>Просмотрищик динамограмм</title>
   </head>
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
   <body>
     <script>
       // You can also require other files to run in this process
@@ -16,16 +17,16 @@
     const Highcharts = require('highcharts')
     require('highcharts/modules/data')(Highcharts)
   </script>
-  <div class="container-fluid">
-      <div class="row content">
-          <div class="col-sm-3">
+  <div class="container-fluid full-height">
+      <div class="row content full-height">
+          <div class="col-sm-3 full-height">
               <h4>Список скважин:</h4>
-              <ul class="list-group" id = "wells">
+              <ul class="list-group scrollable" id = "wells">
               </ul>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-3 full-height">
               <h4>Динамограммы:</h4>
-              <ul class="list-group" id = "dynamograms">
+              <ul class="list-group scrollable" id = "dynamograms">
               </ul>
           </div>
           <div class="col-sm-6">
