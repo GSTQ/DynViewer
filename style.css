@@ -12,3 +12,13 @@ html, body {
     height: 100%;
     overflow: auto;
 }
+
+.classifier-tables
+{
+    visibility: hidden;
+}
+
+.good-value
+{
+    background-color: lightgreen;
+}

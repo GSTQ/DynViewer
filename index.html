@@ -29,8 +29,34 @@
               <ul class="list-group scrollable" id = "dynamograms">
               </ul>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-6 scrollable">
             <div id = "chart-container">
+            </div>
+            <div class="row classifier-tables">
+              <div class="col-sm-6">
+                <h6>Результаты распознования классификатора 1</h6>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Класс</th>
+                      <th>Уверенность</th>
+                    </tr>
+                  </thead>
+                  <tbody id="classifier1"></tbody>
+                </table>
+              </div>
+              <div class="col-sm-6">
+                <h6>Результаты распознования классификатора 2</h6>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Класс</th>
+                      <th>Уверенность</th>
+                    </tr>
+                  </thead>
+                  <tbody id="classifier2"></tbody>
+                </table>
+              </div>
             </div>
           </div>
       </div>
@@ -105,8 +131,52 @@
               name: 'Динамограмма',
               data: series_data
             }]
-          }); 
+          });
+          $(".classifier-tables").css("visibility","visible");
+          $('.classifier-result').remove();
+
+          var classifier1_values = new Map();
+          var classifier1_max = -1.0;
+          db.each("select dyn_classes.class_id, value, class_name from dyn_classes left join dyn_class_dict on dyn_class_dict.class_id = dyn_classes.class_id  where dyn_classes.dyn_id = " + id + ' and classifier_id = 1', function(err, row) {
+            classifier1_values.set(row.class_name, row.value);
+            if(row.value > classifier1_max){
+              classifier1_max = row.value;
+            }
+          },
+          function(){
+            classifier1_values.forEach(function (item, key, mapObj) {
+              if(item == classifier1_max)
+              {
+                $('#classifier1').append('<tr class = "classifier-result good-value"><td>' + key + '</td><td>' + item +'</td></tr>');
+              }
+              else
+              {
+                $('#classifier1').append('<tr class = "classifier-result"><td>' + key + '</td><td>' + item +'</td></tr>');
+              }
+            });
+          });
+          var classifier2_values = new Map();
+          var classifier2_max = -1.0;
+          db.each("select dyn_classes.class_id, value, class_name from dyn_classes left join dyn_class_dict on dyn_class_dict.class_id = dyn_classes.class_id  where dyn_classes.dyn_id = " + id + ' and classifier_id = 2', function(err, row) {
+            classifier2_values.set(row.class_name, row.value);
+            if(row.value > classifier2_max){
+              classifier2_max = row.value;
+            }
+          },
+          function(){
+            classifier2_values.forEach(function (item, key, mapObj) {
+              if(item == classifier2_max)
+              {
+                $('#classifier2').append('<tr class = "classifier-result good-value"><td>' + key + '</td><td>' + item +'</td></tr>');
+              }
+              else
+              {
+                $('#classifier2').append('<tr class = "classifier-result"><td>' + key + '</td><td>' + item +'</td></tr>');
+              }
+            });
+          });
         });
+        
       });  
     });  
   </script>
