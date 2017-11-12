@@ -20,7 +20,7 @@ export default class WellList extends Component {
                     <span className="badge badge-default badge-pill">{well_item.count}</span>
                 </ListGroupItem>);
         });
-        return (<ListGroup>{wellItems}</ListGroup>)
+        return (<ListGroup className="scrollable">{wellItems}</ListGroup>)
     }
 
     onSelectedWellChange(well_item) {

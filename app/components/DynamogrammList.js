@@ -23,7 +23,7 @@ export default class DynamogrammList extends Component {
                     {dyn_item.dt}
                 </ListGroupItem>);
         });
-        return (<ListGroup>{dynItems}</ListGroup>)
+        return (<ListGroup className="scrollable">{dynItems}</ListGroup>)
     }
 
     onSelectedDynChange(dyn_item) {
