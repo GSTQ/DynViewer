@@ -19,7 +19,6 @@ export default class DynTable extends Component {
     }
 
     render() {
-        console.log('class=' + this.props.classifier_id + ' value=' + this.state.max_item);
         var table_items = this.state.dyn_items.map((dyn_item) => {
             return (
                 <tr className={dyn_item.value == this.state.max_item ? "success" : ""}>
