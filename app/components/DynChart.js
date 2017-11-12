@@ -17,7 +17,7 @@ const options = {
     tooltips: {
         callbacks: {
             label: function (tooltipItem, data) {
-                return 'Ход: ' + tooltipItem.xLabel + ', мм Нагрузка: ' + tooltipItem.yLabel + ', кгс';
+                return 'Ход: ' + tooltipItem.xLabel + ' мм, Нагрузка: ' + tooltipItem.yLabel + ' кгс';
             }
         }
     },
