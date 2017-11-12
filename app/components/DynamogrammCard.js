@@ -10,12 +10,10 @@ export default class DynamogrammCard extends Component {
     return (
       <div>
         <DynChart selected_dyn={this.props.selected_dyn} />
-        <Grid>
-          <Row> 
-            <Col sm={3}><DynTable classifier_id = {1} selected_dyn={this.props.selected_dyn}/></Col>
-            <Col sm={3}><DynTable classifier_id = {2} selected_dyn={this.props.selected_dyn}/></Col>
+          <Row>
+            <Col sm={6}><DynTable classifier_id = {1} selected_dyn={this.props.selected_dyn}/></Col>
+            <Col sm={6}><DynTable classifier_id = {2} selected_dyn={this.props.selected_dyn}/></Col>
           </Row>
-        </Grid>
       </div>
     );
   }

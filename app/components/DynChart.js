@@ -92,7 +92,7 @@ export default class DynChart extends Component {
     render() {
         return (
             <div>
-                <h4>{this.state.chart_title}</h4>
+                <h4 className="text-center">{this.state.chart_title}</h4>
                 <Scatter data={this.state.chart_data} options={options} />
             </div>);
     }
