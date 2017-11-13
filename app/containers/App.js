@@ -16,7 +16,7 @@ export default class App extends Component {
         <Row className="content full-height">
           <Col sm={3} className="full-height"><h4>Список скважин</h4><WellList className="scrollable" OnSelectWell={this.OnSelectWell.bind(this)} /></Col>
           <Col sm={3} className="full-height"><h4>Список динамограмм</h4><DynamogrammList selected_well={this.state.selected_well} OnSelectDyn={this.OnSelectDyn.bind(this)}/></Col>
-          <Col sm={6}><DynamogrammCard selected_dyn={this.state.selected_dyn}/></Col>
+          <Col sm={6} className="scrollable"><DynamogrammCard selected_dyn={this.state.selected_dyn}/></Col>
         </Row>
       </Grid>
     );
