@@ -3,9 +3,9 @@ import { ListGroup, ListGroupItem } from 'react-bootstrap'
 import { getWellList } from '../db.js'
 
 export default class WellList extends Component {
-    componentWillMount() {
+    async componentWillMount() {
         this.setState({ well_items: [], selected_well: null });
-        getWellList().then(data => {
+        await getWellList().then(data => {
             this.setState({ well_items: data });
         });
     }

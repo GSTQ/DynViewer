@@ -8,8 +8,8 @@ export default class DynamogrammList extends Component {
         this.setState({ dyn_items: [], selected_dyn: null });
     }
 
-    componentWillReceiveProps(nextProps) {
-        getDynamogrammList(nextProps.selected_well).then(data => {
+    async componentWillReceiveProps(nextProps) {
+        await getDynamogrammList(nextProps.selected_well).then(data => {
             this.setState({ dyn_items: data });
         });
     }
